@@ -16,10 +16,12 @@ gcloud compute instances create \
 	--zone=$ZONE \
 	$INSTANCE
 
-sleep 60
+sleep 30
 
-gcloud compute ssh --zone=$ZONE $INSTANCE <make-image-setup.sh
-gcloud compute instances stop $INSTANCE
+gcloud compute scp -q --zone=$ZONE make-image-setup.sh circleci@$INSTANCE:
+gcloud compute ssh --zone=$ZONE circleci@$INSTANCE \
+  --command=./make-image-setup.sh
+gcloud compute instances stop --zone=$ZONE $INSTANCE
 
 gcloud compute images create \
 	--source-disk $INSTANCE \
