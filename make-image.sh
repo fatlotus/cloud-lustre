@@ -16,7 +16,7 @@ gcloud compute instances create \
 	--zone=$ZONE \
 	$INSTANCE
 
-sleep 30
+sleep 60
 
 gcloud compute scp -q --zone=$ZONE make-image-setup.sh circleci@$INSTANCE:
 gcloud compute ssh --zone=$ZONE circleci@$INSTANCE \
