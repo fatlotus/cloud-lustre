@@ -1,6 +1,5 @@
 # Lustre Build Automation for GCP
 
-Latest build: 
 ![CircleCI](https://img.shields.io/circleci/project/github/fatlotus/cloud-lustre.svg)
 
 This repository uses CircleCI workflows to build a new lustre image on GCP.

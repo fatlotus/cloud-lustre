@@ -46,8 +46,8 @@ sudo yum install -y kmod-lustre \
 	lustre \
 	lustre-resource-agents
 
-echo ldiskfs > /etc/modules-load.d/lustre
-echo lustre >> /etc/modules-load.d/lustre
+echo lustre | tee /etc/modules-load.d/lustre
+echo ldiskfs | tee -a /etc/modules-load.d/lustre
 
 # Shut down the instance so that we can create a clean image.
 sudo shutdown -h +1
