@@ -45,7 +45,8 @@ sudo yum install -y kmod-lustre \
 	lustre-osd-ldiskfs-mount \
 	lustre \
 	lustre-resource-agents \
-	lustre-osd-zfs
+	lustre-osd-zfs \
+	zfs
 
 echo lustre | sudo tee /etc/modules-load.d/lustre
 echo ldiskfs | sudo tee -a /etc/modules-load.d/lustre
