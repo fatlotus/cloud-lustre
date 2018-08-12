@@ -14,24 +14,11 @@ gcloud compute instances create \
 	--image-project=centos-cloud \
 	--image-family=centos-7 \
 	--zone=$ZONE \
+	--scopes=default,compute-rw \
+	--preemptible \
+	--metadata-from-file=startup-script=setup-as-lustre.sh \
 	$INSTANCE
 
-sleep 60
+gcloud compute instances tail-serial-port-output --zone=$ZONE $INSTANCE | tee setuplogs.txt
 
-gcloud compute scp -q --zone=$ZONE make-image-setup*.sh circleci@$INSTANCE:
-gcloud compute ssh --zone=$ZONE circleci@$INSTANCE \
-  --command=./make-image-setup-1.sh
-
-sleep 120
-
-gcloud compute ssh --zone=$ZONE circleci@$INSTANCE \
-  --command=./make-image-setup-2.sh
-gcloud compute instances stop --zone=$ZONE $INSTANCE
-
-gcloud compute images create \
-	--source-disk $INSTANCE \
-	--source-disk-zone $ZONE \
-	--family $FAMILY \
-	"${FAMILY}-$(date +%s)"
-
-gcloud compute instances delete -q --zone=$ZONE build-lustre-image
+grep lustre-setup-success setuplogs.txt
